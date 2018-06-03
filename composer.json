@@ -1,0 +1,24 @@
+{
+    "name": "victoralvess/mocked-cars-api",
+    "description": "Cars API using mocked data.",
+    "type": "project",
+    "require": {
+        "zendframework/zend-diactoros": "^1.7",
+        "relay/relay": "2.x@dev",
+        "middlewares/fast-route": "^1.0",
+        "php-di/php-di": "^6.0",
+        "middlewares/request-handler": "^1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Victor Alves",
+            "email": "vsilva.programador@gmail.com"
+        }
+    ]
+}
