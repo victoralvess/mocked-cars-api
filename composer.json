@@ -8,7 +8,8 @@
         "middlewares/fast-route": "^1.0",
         "php-di/php-di": "^6.0",
         "middlewares/request-handler": "^1.1",
-        "middlewares/error-handler": "^1.0"
+        "middlewares/error-handler": "^1.0",
+        "twig/twig": "^2.4"
     },
     "autoload": {
         "psr-4": {
