@@ -3,12 +3,15 @@ declare(strict_types = 1);
 
 namespace App;
 
-use FastRoute\RouteCollector;
+use App\Handlers\ErrorRequestHandler;
 use Relay\Relay;
 use Middlewares\FastRoute;
+use Middlewares\ErrorHandler;
 use Middlewares\RequestHandler;
 use Zend\Diactoros\ServerRequestFactory;
 use Zend\Diactoros\Response\SapiEmitter;
+use Zend\Diactoros\Response;
+use FastRoute\RouteCollector;
 use function FastRoute\simpleDispatcher;
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
@@ -19,10 +22,12 @@ $routes = simpleDispatcher(function (RouteCollector $r) {
     });
 });
 
-$queue[] = new FastRoute($routes);
-$queue[] = new RequestHandler();
 
-$relay = new Relay($queue);
+$middlewares[] = new ErrorHandler(new ErrorRequestHandler());
+$middlewares[] = new FastRoute($routes);
+$middlewares[] = new RequestHandler();
+
+$relay = new Relay($middlewares);
 $response = $relay->handle(ServerRequestFactory::fromGlobals());
 
 $emitter = new SapiEmitter();
