@@ -8,6 +8,7 @@ use Relay\Relay;
 use Middlewares\FastRoute;
 use Middlewares\RequestHandler;
 use Zend\Diactoros\ServerRequestFactory;
+use Zend\Diactoros\Response\SapiEmitter;
 use function FastRoute\simpleDispatcher;
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
@@ -24,5 +25,6 @@ $queue[] = new RequestHandler();
 $relay = new Relay($queue);
 $response = $relay->handle(ServerRequestFactory::fromGlobals());
 
-echo $response->getBody();
+$emitter = new SapiEmitter();
+$emitter->emit($response);
 
