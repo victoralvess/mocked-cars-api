@@ -22,6 +22,8 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/', function ($request) {
         return 'GET / - OK';
     });
+
+    $r->addRoute('GET', '/cars[/{action:all|add}]', 'CarsHandler');
 });
 
 $middlewares[] = new ErrorHandler($container->get('ErrorHandler'));
