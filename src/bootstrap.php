@@ -21,12 +21,12 @@ $container = $builder->build();
 $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/', function ($request) {
         return 'GET / - OK';
-    });  
+    });
 });
 
 $middlewares[] = new ErrorHandler($container->get('ErrorHandler'));
 $middlewares[] = new FastRoute($dispatcher);
-$middlewares[] = new RequestHandler();
+$middlewares[] = new RequestHandler($container);
 
 $relay = new Relay($middlewares);
 $response = $relay->handle(ServerRequestFactory::fromGlobals());
