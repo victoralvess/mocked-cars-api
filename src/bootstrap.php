@@ -5,13 +5,18 @@ namespace App;
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use DI\ContainerBuilder;
 use Relay\Relay;
 use Middlewares\{ErrorHandler, FastRoute, RequestHandler};
-use App\Handlers\ErrorRequestHandler;
 use Zend\Diactoros\ServerRequestFactory;
 use Zend\Diactoros\Response\SapiEmitter;
 use FastRoute\RouteCollector;
 use function FastRoute\simpleDispatcher;
+
+$builder = new ContainerBuilder();
+$builder->useAutowiring(false);
+$builder->addDefinitions(__DIR__ . '/container-definitions.php');
+$container = $builder->build();
 
 $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/', function ($request) {
@@ -19,7 +24,7 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     });  
 });
 
-$middlewares[] = new ErrorHandler(new ErrorRequestHandler());
+$middlewares[] = new ErrorHandler($container->get('ErrorHandler'));
 $middlewares[] = new FastRoute($dispatcher);
 $middlewares[] = new RequestHandler();
 
