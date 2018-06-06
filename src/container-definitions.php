@@ -17,5 +17,7 @@ return [
             ['id' => 2, 'name' => 'car2'],
         ]/*)*/),
     'ErrorHandler' => create(ErrorRequestHandler::class),
-    'CarsHandler' => create(CarsRequestHandler::class),    
+    'CarsHandler' => get(CarsRequestHandler::class),
+    CarsRequestHandler::class =>
+        create(CarsRequestHandler::class)->constructor(get(RepositoryInterface::class)),
 ];
