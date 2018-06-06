@@ -3,22 +3,40 @@ declare(strict_types = 1);
 
 namespace App\Data;
 
-class CarsRepository implements RepositoryInterface
+use App\Utils\FileHandler;
+
+class CarsRepository implements RepositoryInterface, FileHandler
 {
-    public function __construct(array $data) {
+    private $filename;
+    private $data;
+
+    public function __construct(string $filename = __DIR__.'/data.json') {        
+        $data = json_decode($this->read($filename, 'r'));
+        $this->filename = $filename;        
         $this->data = $data;
     }
 
-    public function add($item) {
+    public function add($item)
+    {
         $this->data[] = $item;
+
+        $this->write($this->filename, 'w', json_encode($this->data));
+
+        return $item;
     }
 
-    public function remove($id) {
+    public function remove($id)
+    {
         $index = array_search($id, array_column($this->data, 'id'));
         array_splice($this->data, $index, 1);
+
+        $this->write($this->filename, 'w', json_encode($this->data));
+
+        return [ $id => 'REMOVED'];
     }
 
-    public function findById($id) {
+    public function findById($id)
+    {
         $index = array_search($id, array_column($this->data, 'id'));
         if ($index > -1) {
             return $this->data[$index];
@@ -27,7 +45,26 @@ class CarsRepository implements RepositoryInterface
         return null;
     }
 
-    public function findAll() {
+    public function findAll()
+    {
         return $this->data;
+    }
+
+    public function read(string $filename, string $mode): string
+    {
+        $handle = fopen($filename, $mode);
+        $content = fread($handle, filesize($filename));
+        fclose($handle);
+
+        return $content;
+    }
+
+    public function write(string $filename, string $mode, string $content): void
+    {
+        $handle = fopen($filename, $mode);
+        fwrite($handle, $content);
+        fclose($handle);
+
+        return;
     }
 }
