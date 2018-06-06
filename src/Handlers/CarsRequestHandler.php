@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Handlers;
 
+use App\Data\RepositoryInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -12,6 +13,11 @@ use Zend\Diactoros\Response\JsonResponse;
 
 class CarsRequestHandler implements RequestHandlerInterface
 {
+    public function __construct(RepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
+
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $httpMethod = strtolower($request->getMethod());
@@ -32,9 +38,6 @@ class CarsRequestHandler implements RequestHandlerInterface
 
     public function getAllAction(ServerRequestInterface $request): ResponseInterface
     {
-        return new JsonResponse([
-            ['id' => 1, 'name' => 'car1'],
-            ['id' => 2, 'name' => 'car2'],
-        ]);
+        return new JsonResponse($this->repository->findAll());
     }
 }
