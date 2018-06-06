@@ -40,4 +40,28 @@ class CarsRequestHandler implements RequestHandlerInterface
     {
         return new JsonResponse($this->repository->findAll());
     }
+
+    public function postAddAction(ServerRequestInterface $request): ResponseInterface
+    {
+        return (new JsonResponse(
+            $this->repository->add(
+                json_decode($request->getBody()->__toString())
+            )
+        ))->withStatus(201);
+    }
+
+    public function postRemoveAction(ServerRequestInterface $request): ResponseInterface
+    {
+        $id = intval($request->getAttribute('id', 0));
+
+        if (!isset($id) or $id === 0) {
+            $response = new Response();
+            $response->getBody()->write('Invalid `id`.');
+            return $response
+                ->withHeader('Content-type', 'text/plain')
+                ->withStatus(400);
+        }
+
+        return new JsonResponse($this->repository->remove($id));
+    }
 }
