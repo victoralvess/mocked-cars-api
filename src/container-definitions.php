@@ -10,12 +10,7 @@ use function DI\create;
 use function DI\get;
 
 return [
-    RepositoryInterface::class => get(CarsRepository::class),
-    CarsRepository::class =>
-        create(CarsRepository::class)->constructor(/*get(*/[
-            ['id' => 1, 'name' => 'car1'],
-            ['id' => 2, 'name' => 'car2'],
-        ]/*)*/),
+    RepositoryInterface::class => create(CarsRepository::class),
     'ErrorHandler' => create(ErrorRequestHandler::class),
     'CarsHandler' => get(CarsRequestHandler::class),
     CarsRequestHandler::class =>
