@@ -57,9 +57,9 @@ class CarsRequestHandler implements RequestHandlerInterface
 
     public function postRemoveAction(ServerRequestInterface $request): ResponseInterface
     {
-        $id = intval($request->getAttribute('id', 0));
+        $id = $request->getAttribute('id', '0');
 
-        if (!isset($id) or $id === 0) {
+        if (!isset($id) or $id === '0') {
             $response = new Response();
             $response->getBody()->write('Invalid `id`.');
             return $response
