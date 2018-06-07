@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace App\Handlers;
 
 use App\Data\RepositoryInterface;
+use App\Data\BuilderInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -13,9 +14,10 @@ use Zend\Diactoros\Response\JsonResponse;
 
 class CarsRequestHandler implements RequestHandlerInterface
 {
-    public function __construct(RepositoryInterface $repository)
+    public function __construct(RepositoryInterface $repository, BuilderInterface $builder)
     {
         $this->repository = $repository;
+        $this->builder = $builder;
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
@@ -43,9 +45,12 @@ class CarsRequestHandler implements RequestHandlerInterface
 
     public function postAddAction(ServerRequestInterface $request): ResponseInterface
     {
+        $json = $request->getBody()->__toString();
+        $car = $builder->buildFromJsonString($json);
+
         return (new JsonResponse(
             $this->repository->add(
-                json_decode($request->getBody()->__toString())
+                $car
             )
         ))->withStatus(201);
     }
