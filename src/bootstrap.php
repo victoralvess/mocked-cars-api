@@ -24,7 +24,7 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     });
 
     $r->addRoute('GET', '/cars[/{action:all}]', 'CarsHandler');
-    $r->addRoute('POST', '/cars[/{action:add|remove}[/{id:\d+}]]', 'CarsHandler');
+    $r->addRoute('POST', '/cars[/{action:add|remove}[/{id:\w+}]]', 'CarsHandler');
 });
 
 $middlewares[] = new ErrorHandler($container->get('ErrorHandler'));
