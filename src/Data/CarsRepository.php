@@ -16,16 +16,16 @@ class CarsRepository implements RepositoryInterface, FileHandler
         $this->data = $data;
     }
 
-    public function add($item)
+    public function add(ModelInterface $item)
     {
-        $this->data[] = $item;
+        $this->data[] = $item->toJson();
 
         $this->write($this->filename, 'w', json_encode($this->data));
 
-        return $item;
+        return $item->toJson();
     }
 
-    public function remove($id)
+    public function remove(string $id)
     {
         $index = array_search($id, array_column($this->data, 'id'));
         array_splice($this->data, $index, 1);
@@ -35,7 +35,7 @@ class CarsRepository implements RepositoryInterface, FileHandler
         return [ $id => 'REMOVED'];
     }
 
-    public function findById($id)
+    public function findById(string $id)
     {
         $index = array_search($id, array_column($this->data, 'id'));
         if ($index > -1) {
