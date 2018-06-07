@@ -5,8 +5,8 @@ namespace App\Data;
 
 interface RepositoryInterface
 {
-    public function add($item);
-    public function remove($id);
-    public function findById($id);
+    public function add(ModelInterface $item);
+    public function remove(string $id);
+    public function findById(string $id);
     public function findAll();
 }
