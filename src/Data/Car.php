@@ -49,4 +49,14 @@ class Car implements ModelInterface
     {
         $this->year = $year;
     }
+
+    public function toJson(): array
+    {
+        return get_object_vars($this);
+    }
+
+    public function toString(): string
+    {
+        return json_encode($this->toJson());
+    }
 }
