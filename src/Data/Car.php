@@ -29,4 +29,24 @@ class Car implements ModelInterface
     {
         return $this->year;
     }
+
+    public function setId(string $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function setBrand(string $brand): void
+    {
+        $this->brand = $brand;
+    }
+
+    public function setModel(string $model): void
+    {
+        $this->model = $model;
+    }
+
+    public function setYear(int $year): void
+    {
+        $this->year = $year;
+    }
 }
