@@ -2,6 +2,9 @@
     "name": "victoralvess/mocked-cars-api",
     "description": "Cars API using mocked data.",
     "type": "project",
+    "scripts": {
+        "test": "phpunit --bootstrap vendor/autoload.php tests"
+    },
     "require": {
         "zendframework/zend-diactoros": "^1.7",
         "relay/relay": "2.x@dev",
