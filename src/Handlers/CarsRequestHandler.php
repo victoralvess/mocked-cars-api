@@ -11,6 +11,7 @@ use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\Response\TextResponse;
 use Zend\Diactoros\Response\JsonResponse;
+use Middlewares\HttpErrorException;
 
 class CarsRequestHandler implements RequestHandlerInterface
 {
@@ -46,13 +47,17 @@ class CarsRequestHandler implements RequestHandlerInterface
     public function postAddAction(ServerRequestInterface $request): ResponseInterface
     {
         $json = $request->getBody()->__toString();
-        $car = $builder->buildFromJsonString($json);
-
-        return (new JsonResponse(
-            $this->repository->add(
-                $car
-            )
-        ))->withStatus(201);
+        
+        try {
+            $car = $this->builder->buildFromJsonString($json);
+            return (new JsonResponse(
+                $this->repository->add(
+                    $car
+                )
+            ))->withStatus(201);
+        } catch (HttpErrorException $e) {
+            return (new Response())->withStatus($e->getCode());
+        }        
     }
 
     public function postRemoveAction(ServerRequestInterface $request): ResponseInterface
