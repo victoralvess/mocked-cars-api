@@ -3,9 +3,9 @@ declare(strict_types = 1);
 
 namespace App\Data;
 
-use App\Utils\FileHandler;
+use App\Utils\FileHandlerInterface;
 
-class CarsRepository implements RepositoryInterface, FileHandler
+class CarsRepository implements RepositoryInterface, FileHandlerInterface
 {
     private $filename;
     private $data;
