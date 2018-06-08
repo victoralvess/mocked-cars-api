@@ -22,5 +22,8 @@
             "name": "Victor Alves",
             "email": "vsilva.programador@gmail.com"
         }
-    ]
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^7.2"
+    }
 }
