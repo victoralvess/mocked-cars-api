@@ -57,7 +57,7 @@ class CarsRepository implements RepositoryInterface, FileHandlerInterface
         return $this->data;
     }
 
-    public function read(string $filename, string $mode): string
+    public function read(string $filename): string
     {
         $content = file_get_contents($filename);
         return $content;

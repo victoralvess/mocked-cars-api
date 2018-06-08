@@ -5,6 +5,6 @@ namespace App\Utils;
 
 interface FileHandlerInterface
 {
-    public function read(string $filename, string $mode): string;
+    public function read(string $filename): string;
     public function write(string $filename, string $mode, string $content): void;
 }
