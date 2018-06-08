@@ -52,10 +52,7 @@ class CarsRepository implements RepositoryInterface, FileHandlerInterface
 
     public function read(string $filename, string $mode): string
     {
-        $handle = fopen($filename, $mode);
-        $content = fread($handle, filesize($filename));
-        fclose($handle);
-
+        $content = file_get_contents($filename);
         return $content;
     }
 
