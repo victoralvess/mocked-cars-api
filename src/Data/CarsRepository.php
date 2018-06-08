@@ -11,9 +11,16 @@ class CarsRepository implements RepositoryInterface, FileHandlerInterface
     private $data;
 
     public function __construct(string $filename = __DIR__.'/data.json') {        
-        $data = json_decode($this->read($filename, 'r'));
+        $data = null;
+
+        if (file_exists($filename)) {
+            $data = json_decode($this->read($filename, 'r'));
+        } else {
+            file_put_contents($filename, '');
+        }
+
         $this->filename = $filename;        
-        $this->data = $data;
+        $this->data = $data ?? [];
     }
 
     public function add(ModelInterface $item)
