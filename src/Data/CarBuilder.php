@@ -2,6 +2,8 @@
 declare(strict_types = 1);
 
 namespace App\Data;
+use TypeError;
+use Middlewares\HttpErrorException;
 
 class CarBuilder implements CarBuilderInterface
 {
@@ -21,13 +23,17 @@ class CarBuilder implements CarBuilderInterface
     {
         $decoded = json_decode($json);
         
-        $this->setId($decoded->id);
-        $this->setBrand($decoded->brand);
-        $this->setModel($decoded->model);
-        $this->setYear($decoded->year);
-
-        return $this->car;
-    }
+        try {            
+            return $this
+                ->setId($decoded->id)
+                ->setBrand($decoded->brand)
+                ->setModel($decoded->model)
+                ->setYear($decoded->year)
+                ->build();
+        } catch (TypeError $e) {
+            throw HttpErrorException::create(400);
+        }
+    }   
 
     public function setId(string $id): CarBuilderInterface
     {
