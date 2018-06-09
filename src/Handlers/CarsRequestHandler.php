@@ -60,7 +60,7 @@ class CarsRequestHandler implements RequestHandlerInterface
         }        
     }
 
-    public function postRemoveAction(ServerRequestInterface $request): ResponseInterface
+    public function deleteRemoveAction(ServerRequestInterface $request): ResponseInterface
     {
         $id = $request->getAttribute('id', '0');
 
