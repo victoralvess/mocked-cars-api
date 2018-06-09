@@ -19,12 +19,10 @@ $builder->addDefinitions(__DIR__ . '/container-definitions.php');
 $container = $builder->build();
 
 $dispatcher = simpleDispatcher(function (RouteCollector $r) {
-    $r->addRoute('GET', '/', function ($request) {
-        return 'GET / - OK';
-    });
-
-    $r->addRoute('GET', '/cars[/{action:all}]', 'CarsHandler');
-    $r->addRoute('POST', '/cars[/{action:add|remove}[/{id:\w+}]]', 'CarsHandler');
+    $routes = require(__DIR__ . '/routes.php');
+    foreach ($routes as $route) {
+        $r->addRoute($route[0], $route[1], $route[2]);
+    }
 });
 
 $middlewares[] = new ErrorHandler($container->get('ErrorHandler'));
