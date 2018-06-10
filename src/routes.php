@@ -1,7 +1,8 @@
 <?php
 
 return [
-    ['GET', '/cars[/[{action:all}]]', 'CarsHandler'],
-    ['POST', '/cars/{action:add}', 'CarsHandler'],
-    ['DELETE', '/cars/{action:remove}/{id:\w+}', 'CarsHandler']
+    ['GET', '/cars[/]', 'CarsHandler'],
+    ['GET', '/cars/{id:\w+}', 'CarsHandler'],
+    ['POST', '/cars[/]', 'CarsHandler'],
+    ['DELETE', '/cars/{id:\w+}', 'CarsHandler'],
 ];
