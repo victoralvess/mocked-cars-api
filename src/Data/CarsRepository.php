@@ -14,7 +14,7 @@ class CarsRepository implements RepositoryInterface, FileHandlerInterface
         $data = null;
 
         if (file_exists($filename)) {
-            $data = json_decode($this->read($filename, 'r'));
+            $data = json_decode($this->read($filename, 'r'), false, 512, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         } else {
             file_put_contents($filename, '');
         }
@@ -27,7 +27,7 @@ class CarsRepository implements RepositoryInterface, FileHandlerInterface
     {
         $this->data[] = $item->toJson();
 
-        $this->write($this->filename, 'w', json_encode($this->data));
+        $this->write($this->filename, 'w', json_encode($this->data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
 
         return $item->toJson();
     }
@@ -37,7 +37,7 @@ class CarsRepository implements RepositoryInterface, FileHandlerInterface
         $index = array_search($id, array_column($this->data, 'id'));
         array_splice($this->data, $index, 1);
 
-        $this->write($this->filename, 'w', json_encode($this->data));
+        $this->write($this->filename, 'w', json_encode($this->data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
 
         return [ $id => 'REMOVED'];
     }
