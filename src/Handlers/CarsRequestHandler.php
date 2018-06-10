@@ -36,15 +36,16 @@ class CarsRequestHandler implements RequestHandlerInterface
 
     public function getIndexAction(ServerRequestInterface $request): ResponseInterface
     {
-        return new TextResponse('INDEX');
-    }
+        $id = $request->getAttribute('id', null);
 
-    public function getAllAction(ServerRequestInterface $request): ResponseInterface
-    {
+        if (isset($id)) {
+            return new JsonResponse($this->repository->findById($id));
+        }
+
         return new JsonResponse($this->repository->findAll());
     }
 
-    public function postAddAction(ServerRequestInterface $request): ResponseInterface
+    public function postIndexAction(ServerRequestInterface $request): ResponseInterface
     {
         $json = $request->getBody()->__toString();
         
@@ -60,7 +61,7 @@ class CarsRequestHandler implements RequestHandlerInterface
         }        
     }
 
-    public function deleteRemoveAction(ServerRequestInterface $request): ResponseInterface
+    public function deleteIndexAction(ServerRequestInterface $request): ResponseInterface
     {
         $id = $request->getAttribute('id', '0');
 
